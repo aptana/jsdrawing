@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Path Commands - VML</title>
+		<style>
+			.canvas {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="artwork/PathCommands.js"></script>
+		<script type="text/javascript">
+			var commands = [
+				"arcToAbs", "arcToRel",
+				"curveToAbs", "curveToRel",
+				"horizontalAbs", "horizontalRel",
+				"lineToAbs", "lineToRel",
+				"moveToAbs", "moveToRel",
+				"quadraticCurveToAbs", "quadraticCurveToRel",
+				"smoothCurveToAbs", "smoothCurveToRel",
+				"smoothQuadraticCurveToAbs", "smoothQuadraticCurveToRel",
+				"verticalAbs", "verticalRel"
+			];
+			
+			function init() {
+				if (VMLBridge.isSupported()) {
+					var renderer = new PathRenderer(null);
+					
+					for (var i = 0; i < commands.length; i++) {
+						var name = commands[i];
+						var bridge = new VMLBridge(name);
+						var path = window[name]();
+						
+						// apply bridge
+						renderer.bridge = bridge;
+						
+						// plot
+						path.draw(renderer);
+					}
+				}
+			}
+		</script>
+	</head>
+	<body onload="init()" ondblclick="alert(document.documentElement.outerHTML)">
+		<div id="arcToAbs" class="canvas" style="top: 10px; left: 10px"></div>
+		<div id="arcToRel" class="canvas" style="top: 10px; left: 114px"></div>
+		<div id="curveToAbs" class="canvas" style="top: 10px; left: 218px"></div>
+		<div id="curveToRel" class="canvas" style="top: 10px; left: 322px"></div>
+		<div id="horizontalAbs" class="canvas" style="top: 10px; left: 426px"></div>
+		<div id="horizontalRel" class="canvas" style="top: 10px; left: 530px"></div>
+		
+		<div id="lineToAbs" class="canvas" style="top: 114px; left: 10px"></div>
+		<div id="lineToRel" class="canvas" style="top: 114px; left: 114px"></div>
+		<div id="moveToAbs" class="canvas" style="top: 114px; left: 218px"></div>
+		<div id="moveToRel" class="canvas" style="top: 114px; left: 322px"></div>
+		<div id="quadraticCurveToAbs" class="canvas" style="top: 114px; left: 426px"></div>
+		<div id="quadraticCurveToRel" class="canvas" style="top: 114px; left: 530px"></div>
+		
+		<div id="smoothCurveToAbs" class="canvas" style="top: 218px; left: 10px"></div>
+		<div id="smoothCurveToRel" class="canvas" style="top: 218px; left: 114px"></div>
+		<div id="smoothQuadraticCurveToAbs" class="canvas" style="top: 218px; left: 218px"></div>
+		<div id="smoothQuadraticCurveToRel" class="canvas" style="top: 218px; left: 322px"></div>
+		<div id="verticalAbs" class="canvas" style="top: 218px; left: 426px"></div>
+		<div id="verticalRel" class="canvas" style="top: 218px; left: 530px"></div>
+	</body>
+</html>

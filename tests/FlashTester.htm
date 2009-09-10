@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Path Data Tester - Flash (AFLAX)</title>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="../lib/aflax.js"></script>
+		<script type="text/javascript">
+			var aflax = new AFLAX("../lib/aflax.swf");
+			var renderer;
+			
+			function updateImage(form) {
+				if (FlashBridge.isSupported()) {
+					if ( renderer == null ) {
+						var mc = new AFLAX.MovieClip(aflax);
+						var bridge = new FlashBridge(mc);
+						
+						renderer = new PathRenderer(bridge);
+					}
+					
+					// create path
+					var pathData = form.pathData.value;
+					var path = new Path(pathData);
+					
+					path.fill = new Color(0, 128, 0);
+					path.stroke = new Color(128, 0, 0);
+					path.strokeWidth = 5;
+					
+					// clear canvas
+					renderer.clear();
+					
+					// begin plot
+					renderer.beginRender();
+					
+					// plot
+					path.draw(renderer);
+					
+					// update rendering on screen
+					renderer.endRender();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td width="300" valign="top">
+					<script type="text/javascript">
+						aflax.insertFlash(300, 300, "#EEEEEE");
+					</script>
+				</td>
+				<td width="300">
+					<form name="pathDataForm" onsubmit="updateImage(this); return false">
+						<textarea name="pathData" cols="40" rows="20">M10,10 110,10 110,110 10,110z</textarea>
+						<br />
+						<button type="submit">Plot</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

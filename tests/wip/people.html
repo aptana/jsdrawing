@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>People Drawing</title>
+		<style>
+			.canvas {
+				position: absolute;
+				width: 402px;
+				height: 266px;
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="lib/aflax.js"></script>
+		<script type="text/javascript" src="lib/wz_jsgraphics.js"></script>
+		<script type="text/javascript" src="lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="tests/TestHarness.js"></script>
+		<script type="text/javascript" src="tests/artwork/People.js"></script>
+		<script type="text/javascript">
+			var aflax = new AFLAX("lib/aflax.swf");
+			var initialized = false;
+			
+			function init() {
+				if (initialized == false) {
+					renderer = new PathRenderer(null);
+					makeImage();
+					initialized = true;
+				}
+			}
+			
+			function drawAll() {
+				init();
+				
+				if (DivBridge.isSupported()) {
+					renderer.bridge = new DivBridge("DivBridge");
+					drawShapes();
+				}
+				if (VMLBridge.isSupported()) {
+					renderer.bridge = new VMLBridge("VMLBridge");
+					drawShapes();
+				}
+				if (CanvasBridge.isSupported()) {
+					renderer.bridge = new CanvasBridge("CanvasBridge");
+					drawShapes();
+				}
+				if (SVGBridge.isSupported()) {
+					renderer.bridge = new SVGBridge("SVGBridge");
+					drawShapes();
+				}
+			}
+			
+			function drawFlash() {
+				init();
+				
+				if (FlashBridge.isSupported()) {
+					var mc = new AFLAX.MovieClip(aflax);
+					
+					renderer.bridge = new FlashBridge(mc);
+					drawShapes();
+				}
+			}
+		</script>
+	</head>
+	<body onload="drawAll()">
+		<div id="DivBridge" class="canvas" style="top: 10px; left: 10px"></div>
+		<div id="FlashBridge" class="canvas" style="top: 10px; left: 416px">
+			<script type="text/javascript">
+				aflax.insertFlash(402, 266, "#ffffff", "drawFlash");
+			</script>
+		</div>
+		<div id="VMLBridge" class="canvas" style="top: 10px; left: 822px"></div>
+		<div class="canvas" style="top: 280px; left: 10px">
+			<canvas id="CanvasBridge" width="402" height="266"></canvas>
+		</div>
+		<div id="SVGBridge" class="canvas" style="top: 280px; left: 416px"></div>
+	</body>
+</html>

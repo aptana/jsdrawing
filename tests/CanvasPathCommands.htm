@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Path Commands - Canvas</title>
+		<style>
+			canvas {
+				position: absolute;
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="artwork/PathCommands.js"></script>
+		<script type="text/javascript">
+			var commands = [
+				"arcToAbs", "arcToRel",
+				"curveToAbs", "curveToRel",
+				"horizontalAbs", "horizontalRel",
+				"lineToAbs", "lineToRel",
+				"moveToAbs", "moveToRel",
+				"quadraticCurveToAbs", "quadraticCurveToRel",
+				"smoothCurveToAbs", "smoothCurveToRel",
+				"smoothQuadraticCurveToAbs", "smoothQuadraticCurveToRel",
+				"verticalAbs", "verticalRel"
+			];
+			
+			function init() {
+				if (CanvasBridge.isSupported()) {
+					var renderer = new PathRenderer(null);
+					
+					for (var i = 0; i < commands.length; i++) {
+						var name = commands[i];
+						var bridge = new CanvasBridge(name);
+						var path = window[name]();
+						
+						// apply bridge
+						renderer.bridge = bridge;
+						
+						// plot
+						path.draw(renderer);
+					}
+				}
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<canvas id="arcToAbs" width="100" height="100" style="top: 10px; left: 10px"></canvas>
+		<canvas id="arcToRel" width="100" height="100" style="top: 10px; left: 114px"></canvas>
+		<canvas id="curveToAbs" width="100" height="100" style="top: 10px; left: 218px"></canvas>
+		<canvas id="curveToRel" width="100" height="100" style="top: 10px; left: 322px"></canvas>
+		<canvas id="horizontalAbs" width="100" height="100" style="top: 10px; left: 426px"></canvas>
+		<canvas id="horizontalRel" width="100" height="100" style="top: 10px; left: 530px"></canvas>
+		
+		<canvas id="lineToAbs" width="100" height="100" style="top: 114px; left: 10px"></canvas>
+		<canvas id="lineToRel" width="100" height="100" style="top: 114px; left: 114px"></canvas>
+		<canvas id="moveToAbs" width="100" height="100" style="top: 114px; left: 218px"></canvas>
+		<canvas id="moveToRel" width="100" height="100" style="top: 114px; left: 322px"></canvas>
+		<canvas id="quadraticCurveToAbs" width="100" height="100" style="top: 114px; left: 426px"></canvas>
+		<canvas id="quadraticCurveToRel" width="100" height="100" style="top: 114px; left: 530px"></canvas>
+		
+		<canvas id="smoothCurveToAbs" width="100" height="100" style="top: 218px; left: 10px"></canvas>
+		<canvas id="smoothCurveToRel" width="100" height="100" style="top: 218px; left: 114px"></canvas>
+		<canvas id="smoothQuadraticCurveToAbs" width="100" height="100" style="top: 218px; left: 218px"></canvas>
+		<canvas id="smoothQuadraticCurveToRel" width="100" height="100" style="top: 218px; left: 322px"></canvas>
+		<canvas id="verticalAbs" width="100" height="100" style="top: 218px; left: 426px"></canvas>
+		<canvas id="verticalRel" width="100" height="100" style="top: 218px; left: 530px"></canvas>
+	</body>
+</html>

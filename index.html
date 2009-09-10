@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+	<head>
+		<title>JSDrawing</title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<style>
+			.canvas {
+				position: relative;
+				width: 302px;
+				height: 211px;
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="lib/aflax.js"></script>
+		<script type="text/javascript" src="lib/wz_jsgraphics.js"></script>
+		<script type="text/javascript" src="lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="tests/TestHarness.js"></script>
+		<script type="text/javascript" src="tests/artwork/Toucan.js"></script>
+		<script type="text/javascript">
+			var aflax = new AFLAX("lib/aflax.swf");
+			var initialized = false;
+
+			function init() {
+				if (initialized == false) {
+					renderer = new PathRenderer(null);
+					makeImage();
+					initialized = true;
+				}
+			}
+			
+			function drawFlash() {
+				init();
+
+				if (FlashBridge.isSupported()) {
+					var mc = new AFLAX.MovieClip(aflax);
+					
+					renderer.bridge = new FlashBridge(mc);
+					drawShapes();
+				}
+			}
+
+			function drawAll() {
+				init();
+
+				if (DivBridge.isSupported()) {
+					renderer.bridge = new DivBridge("DivBridge");
+					drawShapes();
+				}
+				if (CanvasBridge.isSupported()) {
+					renderer.bridge = new CanvasBridge("CanvasBridge");
+					drawShapes();
+				}
+				if (SVGBridge.isSupported()) {
+					renderer.bridge = new SVGBridge("SVGBridge");
+					drawShapes();
+				}
+				if (VMLBridge.isSupported()) {
+					renderer.bridge = new VMLBridge("VMLBridge");
+					drawShapes();
+				}
+			}
+		</script>
+	</head>
+
+	<body onload="drawAll()">
+        <h4>JSDrawing - Introduction</h4>
+        <p>JSDrawing is a client-side JavaScript library that allows you to render vector graphics independently of browser and platform. The rendering API is based on SVG's path commands and adding support for new renderers is very simple.</p>
+        <p>Below, depending on your browser, you will see as many as five versions of a vector toucan. Firefox 1.5 will display DIVs, Flash, Canvas, and SVG. IE 6 will show DIVs, Flash, and VML. Opera 9 shows DIVs, Canvas, and SVG. Safari 2.0.3 shows DIVs, Flash, and Canvas.</p>
+        <p />
+        <table>
+            <tr>
+                <td>
+                    <div id="DivBridge" class="canvas"></div>
+                    <h4>DIVs</h4>
+                </td>
+                <td>
+                    <div id="FlashBridge" class="canvas">
+                    <script type="text/javascript">
+                        aflax.insertFlash(302, 211, "#ffffff", "drawFlash");
+                    </script>
+                    </div>
+                    <h4>Flash</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="canvas">
+                        <canvas id="CanvasBridge" width="302" height="211"></canvas>
+                    </div>
+                    <h4>Canvas</h4>
+                </td>
+                <td>
+                    <div id="SVGBridge" class="canvas"></div>
+                    <h4>Inline SVG</h4>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="VMLBridge" class="canvas"></div>
+                    <h4>VML</h4>
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <h4>Key Features</h4>
+        <ul>
+            <li>Use one API and output to multiple renderers</li>
+            <li>Gracefully recover from unsupported rendering technologies. For example, if a user agent does not support Flash, you could optionally render to inline SVG or even DIVs</li>
+            <li>Adding support for a new rendering target is very simple. Minimally, you only need to define mappings for moveTo, lineTo, and close commands.</li>
+            <li>Gracefully degrade unsupported curve types using the highest quality curves available in the target renderer. For example, the DIV renderer does not support bezier curves. JSDrawing will automatically convert bezier curves into a series of line segments.</li>
+        </ul>
+        <h4>Requirements</h4>
+        <ul>
+            <li>To plot using DIVs, you will need to use <a href="http://www.walterzorn.com/jsgraphics/jsgraphics_e.htm">Walter Zorn's rendering library</a>.</li>
+            <li>To plot using Flash, you will need to use <a href="http://www.aflax.org/">Paul Colton's AFLAX library</a>. That library requires Flash 8.0 or higher. Note that Opera does not support the required interfaces to communicate with Flash.</li>
+            <li>To plot using SVG, you will need a browser that supports inline SVG. Firefox supports inline SVG.</li>
+            <li>To plot using the canvas tag, you will need a browser that implements that element. Firefox and Safari support the canvas element.</li>	
+        </ul>
+	</body>
+
+</html>

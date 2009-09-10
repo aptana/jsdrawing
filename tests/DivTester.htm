@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Path Data Tester - DIVs (wz_jsgraphics)</title>
+		<style>
+			#myCanvas {
+				position: relative;
+				left: 0px;
+				top: 0px;
+				height: 300px;
+				width: 300px;
+				border: 1px solid black;
+				background: #EEE;
+			}
+		</style>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="../lib/wz_jsgraphics.js"></script>
+		<script type="text/javascript">
+			var pathWalker;
+			
+			function updateImage(form) {
+				if (DivBridge.isSupported()) {
+					if ( pathWalker == null ) {
+						var renderer = new DivBridge("myCanvas");
+						
+						pathWalker = new PathRenderer(renderer);
+					}
+					
+					// create path
+					var pathData = form.pathData.value;
+					var path = new Path(pathData);
+					
+					path.fill = new Color(0, 128, 0);
+					path.stroke = new Color(128, 0, 0);
+					path.strokeWidth = 5;
+					
+					// clear canvas
+					pathWalker.clear();
+					
+					// begin plot
+					pathWalker.beginRender();
+					
+					// plot
+					path.draw(pathWalker);
+					
+					// update rendering on screen
+					pathWalker.endRender();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td width="300" valign="top">
+					<div id="myCanvas"></div>
+				</td>
+				<td width="300">
+					<form name="pathDataForm" onsubmit="updateImage(this); return false">
+						<textarea name="pathData" cols="40" rows="20">M50,50 A50,50 0 0,0 50,150z</textarea>
+						<br />
+						<button type="submit">Plot</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

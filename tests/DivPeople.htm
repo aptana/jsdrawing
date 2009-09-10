@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>People Drawing - DIVs (wz_jsgraphics)</title>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="../lib/wz_jsgraphics.js"></script>
+		<script type="text/javascript" src="TestHarness.js"></script>
+		<script type="text/javascript" src="artwork/People.js"></script>
+		<script type="text/javascript">
+			function init() {
+				if (DivBridge.isSupported()) {
+					initTest(new DivBridge("myCanvas"), makeImage);
+				}
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<div id="myCanvas" style="position:relative;height:100%;width:100%;"></div>
+	</body>
+</html>

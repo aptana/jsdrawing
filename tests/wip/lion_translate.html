@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Lion Drawing</title>
+		<style>
+			.canvas {
+				position: absolute;
+				width: 241px;
+				height: 381px;
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="lib/aflax.js"></script>
+		<script type="text/javascript" src="lib/wz_jsgraphics.js"></script>
+		<script type="text/javascript" src="lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="tests/TestHarness.js"></script>
+		<script type="text/javascript" src="tests/artwork/Lion.js"></script>
+		<script type="text/javascript">
+			var aflax = new AFLAX("lib/aflax.swf");
+			
+			function init() {
+				// create renderer
+				renderer = new PathRenderer(null);
+				
+				// create image
+				makeImage();
+				
+				// apply transform to the top-most group
+				shapes.transform = new TranslateTransform(30,30);
+				
+				/*
+				if (DivBridge.isSupported()) {
+					renderer.bridge = new DivBridge("DivBridge");
+					drawShapes(transform);
+				}
+				if (FlashBridge.isSupported()) {
+					var mc = new AFLAX.MovieClip(aflax);
+					
+					renderer.bridge = new FlashBridge(mc);
+					drawShapes(transform);
+				}
+				*/
+				if (CanvasBridge.isSupported()) {
+					renderer.bridge = new CanvasBridge("CanvasBridge");
+					drawShapes();
+				}
+				if (SVGBridge.isSupported()) {
+					renderer.bridge = new SVGBridge("SVGBridge");
+					drawShapes();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="DivBridge" class="canvas" style="top: 10px; left: 10px"></div>
+		<div id="FlashBridge" class="canvas" style="top: 10px; left: 255px">
+			<script type="text/javascript">
+				aflax.insertFlash(241, 381, "#ffffff", "init");
+			</script>
+		</div>
+		<div class="canvas" style="top: 395px; left: 10px">
+			<canvas id="CanvasBridge" width="241" height="381"></canvas>
+		</div>
+		<div id="SVGBridge" class="canvas" style="top: 395px; left: 255px"></div>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Path Data Tester - Canvas</title>
+		<style>
+			#myCanvas {
+				background: #EEE;
+				border: 1px solid black;
+			}
+		</style>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript">
+			var pathWalker;
+			
+			function updateImage(form) {
+				if (CanvasBridge.isSupported()) {
+					if ( pathWalker == null ) {
+						var renderer = new CanvasBridge("myCanvas");
+						
+						pathWalker = new PathRenderer(renderer);
+					}
+					
+					// create path
+					var pathData = form.pathData.value;
+					var path = new Path(pathData);
+					
+					path.fill = new Color(0, 128, 0);
+					path.stroke = new Color(128, 0, 0);
+					path.strokeWidth = 5;
+					
+					// clear canvas
+					pathWalker.clear();
+					
+					// begin plot
+					pathWalker.beginRender();
+					
+					// plot
+					path.draw(pathWalker);
+					
+					// update rendering on screen
+					pathWalker.endRender();
+				}
+			}
+		</script>
+		
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td width="300" valign="top">
+					<canvas id="myCanvas" width="300" height="300"></canvas>
+				</td>
+				<td width="300">
+					<form name="pathDataForm" onsubmit="updateImage(this); return false">
+						<textarea name="pathData" cols="40" rows="20">M10,10 110,10 110,110 10,110z</textarea>
+						<br />
+						<button type="submit">Plot</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

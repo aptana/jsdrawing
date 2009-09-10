@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Toucan Drawing - Flash (AFLAX)</title>
+		<script type="text/javascript" src="../lib/JSDrawing.js"></script>
+		<script type="text/javascript" src="../lib/aflax.js"></script>
+		<script type="text/javascript" src="TestHarness.js"></script>
+		<script type="text/javascript" src="artwork/Toucan.js"></script>
+		<script type="text/javascript">
+			var aflax = new AFLAX("../lib/aflax.swf");
+			
+			function init() {
+				if (FlashBridge.isSupported()) {
+					var mc = new AFLAX.MovieClip(aflax);
+					
+					initTest(new FlashBridge(mc), makeImage);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			aflax.insertFlash(302, 211, "#ffffff", "init");
+		</script>
+	</body>
+</html>
